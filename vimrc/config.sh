@@ -12,4 +12,4 @@ syntax on ""语法高亮
 set nu ""设置行号
 EOF
 # 应用
-sudo source ~/.vimrc
+source ~/.vimrc
