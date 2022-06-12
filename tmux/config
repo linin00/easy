@@ -1,0 +1,15 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 05:50:04
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/vimrc/config.sh
+ # 天道酬勤
+### 
+
+# step 1: install tmux
+sodu apt install -y tmux
+# step 2: config tmux
+cp ~/.tmux.conf ~/.tmux.conf.bak
+cp ./utils/tmux.conf ~/.tmux.conf

@@ -1,0 +1,29 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 05:50:04
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/docker/config
+ # 天道酬勤
+### 
+installDocker() {
+    sudo apt -y install docker.io
+    sudo docker --version
+}
+removeDocker() {
+    sudo apt -y autoremove docker docker-ce  docker.io  containerd runc
+    sudo dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P # 删除无用的相关的配置文件
+    sudo apt -y autoremove docker-ce-*
+    sudo rm -rf /etc/systemd/system/docker.service.d
+    sudo rm -rf /var/lib/docker
+    echo "Removed"
+}
+echo -n 'What do you want to do with docker? [install | remove]: '
+read chosen
+case $chosen in
+install ) installDocker;;
+remove ) removeDocker;;
+* ) echo "Your input is not supported."
+    return 1;;
+esac

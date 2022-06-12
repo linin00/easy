@@ -1,0 +1,16 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 05:50:04
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/vimrc/config.sh
+ # 天道酬勤
+### 
+
+# step 1: 直接替换
+cp ~/.ssh/authorized_keys ~/.ssh/authorized_keys_backup > /dev/null 2>&1
+echo -n "Enter your pub key: "
+read key
+echo $key
+echo $key >> ~/.ssh/authorized_keys

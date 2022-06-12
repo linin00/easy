@@ -1,0 +1,23 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 05:50:04
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/vimrc/config.sh
+ # 天道酬勤
+### 
+
+# step 1: 安装vim
+sudo apt install -y vim > /dev/null
+if [[ $? -ne 0 ]]; then
+    echo "ERROR: Failed to install vim." >&2
+    return 1
+fi
+
+# step 2: 直接替换
+cp ~/.vimrc ~/.vimrc_backup
+cp ./utils/vimrc ~/.vimrc
+
+# step 3: 应用
+source ~/.vimrc

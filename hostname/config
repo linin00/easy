@@ -1,0 +1,12 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 06:04:23
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/goenv/config
+ # 天道酬勤
+###
+echo -n 'Enter your hostname: '
+read hostname
+sudo hostnamectl 'set-hostname' $hostname

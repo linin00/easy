@@ -1,0 +1,34 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 06:04:23
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/goenv/config
+ # 天道酬勤
+###
+
+# step 1: 安装golang
+wget https://go.dev/dl/go1.18.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzvf go1.18.linux-amd64.tar.gz
+
+# step 2: 设置golang 环境变量
+mkdir ~/.GOPATH > /dev/null 2>&1
+mkdir ~/.GOPATH/bin > /dev/null 2>&1
+mkdir ~/.GOPATH/src > /dev/null 2>&1
+mkdir ~/.GOPATH/pkg > /dev/null 2>&1
+cat >> ~/.zshrc << EOF
+export GOPATH=~/.GOPATH
+export GOROOT=/usr/local/go
+export PATH=\$GOPATH/bin:\$GOROOT/bin:\$PATH
+EOF
+
+# step 3: 应用
+source ~/.zshrc
+
+# step 4: 配置
+## 开启moudles 管理
+go env -w GO111MODULE=on
+
+## 设置代理
+go env -w GOPROXY=https://goproxy.cn,https://goproxy.io,direct

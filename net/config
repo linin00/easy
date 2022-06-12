@@ -1,0 +1,62 @@
+###
+ # @Author: linin00
+ # @Date: 2022-06-12 05:09:53
+ # @LastEditTime: 2022-06-12 05:50:04
+ # @LastEditors: linin00
+ # @Description: 
+ # @FilePath: /easy/vimrc/config.sh
+ # 天道酬勤
+### 
+
+staticIP(){
+
+    echo -n "Enter the ip(192.168.146.180/24): "
+    read ip
+    echo -n "Enter the gateway(192.168.146.2): "
+    read gateway
+
+    # /etc/netplan/00-installer-config.yaml
+    cat > ./tmp << EOF
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: no
+      addresses:
+      - $ip
+      gateway4: $gateway
+      nameservers:
+       addresses:
+       - 8.8.8.8
+EOF
+    return 0
+
+}
+dhcp(){
+    cat > ./tmp << EOF
+# This file describes the network interfaces available on your system
+# For more information, see netplan(5).
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: yes
+EOF
+    return 0
+}
+
+echo -n 'Config static ip(close dhcp)? [Y|N]: '
+read chosen
+case $chosen in
+Y | y ) staticIP;;
+N | n ) dhcp;;
+*) echo "Your input is not supported."
+    return 1;;
+esac
+sudo mv ./tmp /etc/netplan/00-installer-config.yaml
+sudo cat /etc/netplan/00-installer-config.yaml
+sudo netplan apply
