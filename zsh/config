@@ -1,7 +1,7 @@
 ###
  # @Author: linin00
  # @Date: 2022-06-12 05:09:53
- # @LastEditTime: 2022-06-25 13:30:32
+ # @LastEditTime: 2022-06-25 14:01:28
  # @LastEditors: linin00
  # @Description: 
  # @FilePath: /easy/zsh/config
@@ -18,7 +18,7 @@ installZsh() { # 安装zsh
 }
 
 configZsh() {
-    sh ./utils/oh_my_zsh.sh
+    wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
     code=$?
     if [[ $code -ne 0 ]]; then
         if [[ $code -eq 1 ]]; then
