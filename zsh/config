@@ -61,6 +61,7 @@ installPlugins() {
 configEnv() {
     cp ~/.zshrc ~/.zshrc_backup > dev/null 2>&1
     cp ./utils/zshrc ~/.zshrc
+	chsh -s /bin/zsh
     exec zsh -l
 }
 
