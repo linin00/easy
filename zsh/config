@@ -8,51 +8,126 @@
  # 天道酬勤
 ### 
 
+installZsh() { # 安装zsh
+    sudo apt install -y zsh
+    if [[ $? -ne 0 ]]; then
+        echo "ERROR: Failed to install zsh." >&2
+        return 1
+    fi
+    return 0
+}
+
+configZsh() {
+    sh ./utils/oh_my_zsh.sh
+    code=$?
+    if [[ $code -ne 0 ]]; then
+        if [[ $code -eq 1 ]]; then
+            echo "WARNING: oh_my_zsh already exists"
+        else
+            echo "ERROR: Failed to config oh_my_zsh." >&2
+            return 2
+        fi
+    fi
+    return 0
+}
+
+installPlugins() {
+    ## 只需要输入部分命令即可根据之前输入过的命令提示，按右方向键即可补全
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    code=$?
+    if [[ $code -ne 0 ]]; then
+        if [[ $code -eq 128 ]]; then
+            echo "WARNING: zsh-syntax-highlighting already exists and is not an empty directory"
+        else
+            echo "ERROR: Failed to clone zsh-autosuggestions." >&2
+            return 3
+        fi
+    fi
+
+    ## 语法高亮，输入正确的语法会显示绿色，否则会显示红色，不用执行就可以知道命令语法是否正确
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    code=$?
+    if [[ $code -ne 0 ]]; then
+        if [[ $code -eq 128 ]]; then
+            echo "WARNING: zsh-syntax-highlighting already exists and is not an empty directory"
+        else
+            echo "ERROR: Failed to clone zsh-syntax-highlighting." >&2
+            return 4
+        fi
+    fi
+    return 0
+}
+
+configEnv() {
+    cp ~/.zshrc ~/.zshrc_backup > dev/null 2>&1
+    cp ./utils/zshrc ~/.zshrc
+    exec zsh -l
+}
+
 # step 1: 安装zsh
-sudo apt install -y zsh > /dev/null
-if [[ $? -ne 0 ]]; then
-    echo "ERROR: Failed to install zsh." >&2
-    return 1
-fi
+echo -n 'step 1: install zsh(continue, skip or break)? [c|s|b]: '
+read chosen
+case $chosen in
+c | C )
+    echo "install zsh..."
+    installZsh;;
+s | S )
+    echo "skip installing zsh";;
+b | B)
+    echo "break" >&2
+    return 1;;
+*)
+    echo "Your input is not supported." >&2
+    return 2;;
+esac
 
 # step 2: 配置zsh
-sh ./utils/oh_my_zsh.sh > /dev/null 2>&1
-code=$?
-if [[ $code -ne 0 ]]; then
-    if [[ $code -eq 1 ]]; then
-        echo "WARNING: oh_my_zsh already exists"
-    else
-        echo "ERROR: Failed to config oh_my_zsh." >&2
-        return 2
-    fi
-fi
-# step 3: 安装插件，以下插件均已在vimrc中配置好，如果要额外添加插件需要手动在vimrc中加上
+echo -n 'step 1: config zsh(continue, skip or break)? [c|s|b]: '
+read chosen
+case $chosen in
+c | C )
+    echo "config zsh..."
+    configZsh;;
+s | S )
+    echo "skip configing zsh";;
+b | B)
+    echo "break" >&2
+    return 1;;
+*)
+    echo "Your input is not supported." >&2
+    return 2;;
+esac
 
-## 只需要输入部分命令即可根据之前输入过的命令提示，按右方向键即可补全
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions > /dev/null 2>&1
-code=$?
-if [[ $code -ne 0 ]]; then
-    if [[ $code -eq 128 ]]; then
-        echo "WARNING: zsh-syntax-highlighting already exists and is not an empty directory"
-    else
-        echo "ERROR: Failed to clone zsh-autosuggestions." >&2
-        return 3
-    fi
-fi
-
-## 语法高亮，输入正确的语法会显示绿色，否则会显示红色，不用执行就可以知道命令语法是否正确
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting > /dev/null 2>&1
-code=$?
-if [[ $code -ne 0 ]]; then
-    if [[ $code -eq 128 ]]; then
-        echo "WARNING: zsh-syntax-highlighting already exists and is not an empty directory"
-    else
-        echo "ERROR: Failed to clone zsh-syntax-highlighting." >&2
-        return 4
-    fi
-fi
+# step 3: 安装插件
+echo -n 'step 1: install plugins(continue, skip or break)? [c|s|b]: '
+read chosen
+case $chosen in
+c | C )
+    echo "install plugins..."
+    installPlugins;;
+s | S )
+    echo "skip installing plugins";;
+b | B)
+    echo "break" >&2
+    return 1;;
+*)
+    echo "Your input is not supported." >&2
+    return 2;;
+esac
 
 # step 4: 配置环境
-cp ~/.zshrc ~/.zshrc_backup
-cp ./utils/zshrc ~/.zshrc
-exec zsh -l
+echo -n 'step 1: config env(continue, skip or break)? [c|s|b]: '
+read chosen
+case $chosen in
+c | C )
+    echo "config env..."
+    configEnv;;
+s | S )
+    echo "skip configing env";;
+b | B)
+    echo "break" >&2
+    return 1;;
+*)
+    echo "Your input is not supported." >&2
+    return 2;;
+esac
