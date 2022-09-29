@@ -9,7 +9,7 @@
 ### 
 
 # step 1: install tmux
-sodu apt install -y tmux
+sudo apt install -y tmux
 # step 2: config tmux
 cp ~/.tmux.conf ~/.tmux.conf.bak
 cp ./utils/tmux.conf ~/.tmux.conf

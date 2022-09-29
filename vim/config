@@ -9,7 +9,7 @@
 ### 
 
 # step 1: 安装vim
-sudo apt install -y vim > /dev/null
+sudo apt install -y vim
 if [[ $? -ne 0 ]]; then
     echo "ERROR: Failed to install vim." >&2
     return 1
